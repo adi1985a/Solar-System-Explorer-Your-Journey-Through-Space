@@ -1,0 +1,342 @@
+/* About Space Page Styles */
+
+.content {
+    padding-top: 100px;  /* Przestrzeń pod menu */
+    background-color: #0a0a0a;
+    min-height: 100vh;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.about-card {
+    position: relative;
+    height: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #00ffff;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 1;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+}
+
+.about-card:hover::before {
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+.card-header {
+    position: relative;
+    padding: 1.5rem;
+    z-index: 2;
+}
+
+.header-content {
+    text-align: center;
+}
+
+.header-content h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.header-content h3 {
+    color: #00ffff;
+    font-size: 1.1rem;
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    opacity: 0.9;
+}
+
+.card-content {
+    padding: 0 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.card-content p {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    opacity: 0.95;
+    text-align: center;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.read-more {
+    display: inline-block;
+    padding: 8px 20px;
+    color: #00ffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 2px solid #00ffff;
+    background: transparent;
+}
+
+.read-more:hover {
+    background: #00ffff;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+/* Universe Composition Section */
+.universe-composition,
+.info-section,
+.space-phenomena {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+.composition-grid,
+.scale-cards,
+.phenomena-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.composition-card,
+.info-card,
+.phenomena-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.composition-card:hover,
+.info-card:hover,
+.phenomena-card:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.composition-card i,
+.info-card i,
+.phenomena-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #00ffff;
+}
+
+.composition-card h3,
+.info-card h3,
+.phenomena-card h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.composition-card p,
+.info-card p,
+.phenomena-card p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* Space Phenomena Section */
+.phenomena-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.phenomena-card {
+    border: 1px solid #00ffff;
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.phenomena-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    border-color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.phenomena-card i {
+    font-size: 2rem;
+    color: #00ffff;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.phenomena-card:hover i {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.phenomena-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #00ffff;
+}
+
+.phenomena-card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #fff;
+}
+
+/* Responsywność dla phenomena-grid */
+@media (max-width: 1200px) {
+    .phenomena-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .phenomena-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Hero Content Styles */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Scroll Button Styles */
+.hero .cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #00ffff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.hero .cta-button:hover {
+    transform: scale(1.05);
+    background: #00cccc;
+}
+
+/* Content Positioning */
+#about-content {
+    scroll-margin-top: 120px;  /* Zwiększone z 80px na 120px */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .about-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .header-content h2 {
+        font-size: 1.6rem;
+    }
+    
+    .header-content h3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+    
+    .about-card {
+        height: 280px;
+    }
+    
+    .header-content h2 {
+        font-size: 1.4rem;
+    }
+    
+    .header-content h3 {
+        font-size: 0.95rem;
+    }
+}

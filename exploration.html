@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Exploration - Solar System Explorer</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 0 2rem;
+        }
+
+        .future-card {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            min-height: 350px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .future-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-color);
+        }
+
+        .future-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .future-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .future-card h3 {
+            font-size: 1.6rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .future-card p {
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .future-card .read-more {
+            display: block;
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: auto auto 0;
+            transition: all 0.3s ease;
+            width: 80%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .future-card .read-more:hover {
+            background: #ffffff;
+            color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 1200px) {
+            .future-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .future-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .future-card {
+                min-height: 300px;
+                padding: 2rem;
+            }
+
+            .future-card .read-more {
+                width: 90%;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .timeline-item {
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            cursor: pointer;
+        }
+
+        .timeline-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover .timeline-image {
+            transform: scale(1.05);
+        }
+
+        .timeline-header-text {
+            flex-grow: 1;
+        }
+
+        .date {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+            color: #fff;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .timeline-content.active .timeline-description {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding: 0 2rem;
+            margin: 2rem auto;
+            max-width: 1600px;
+            width: 95%;
+        }
+
+        .mission-card {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            min-height: 450px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-color);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .mission-card h2 {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin: 0.5rem 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .mission-card p {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .mission-highlights {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .mission-highlights li {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mission-highlights i {
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        .mission-card .read-more {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: auto;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .mission-card .read-more:hover {
+            background: #ffffff;
+            color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 1400px) {
+            .missions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .missions-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="index.html">Solar System Explorer</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about-space.html">About Space</a></li>
+                <li><a href="planets.html">Planets</a></li>
+                <li><a href="stars.html">Stars & Galaxies</a></li>
+                <li><a href="exploration.html" class="active">Space Exploration</a></li>
+                <li><a href="astronomy.html">Astronomy</a></li>
+                <li><a href="https://www.nasa.gov/images/" target="_blank">Gallery</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content-page">
+        <section class="hero">
+            <div class="video-background">
+                <video autoplay muted loop id="myVideo">
+                    <source src="videos/explor.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1>Space Exploration</h1>
+                <p>Venture into the final frontier</p>
+                <div style="margin-top: 50px;">
+                    <a href="#exploration-content" class="cta-button">Start Exploring</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="exploration-content" class="exploration-content">
+            <section class="page-hero">
+                <h1>Space Exploration</h1>
+                <p>Humanity's journey to the stars and beyond</p>
+            </section>
+
+            <section class="timeline-section">
+                <h2>Space Exploration Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <img src="pictures/sputnik.webp" alt="Sputnik 1" class="timeline-image">
+                                <div class="timeline-header-text">
+                                    <div class="date">1957</div>
+                                    <h3>Sputnik 1</h3>
+                                    <p>First artificial satellite to orbit Earth</p>
+                                </div>
+                            </div>
+                            <div class="timeline-description">
+                                Launched by the Soviet Union on October 4, 1957, Sputnik 1 became the first artificial satellite to successfully orbit Earth. This breakthrough marked the beginning of the Space Age and triggered the Space Race between the United States and the Soviet Union. The satellite, a 58 cm diameter aluminum sphere, orbited Earth for three months while emitting radio signals that could be detected on the ground.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <img src="pictures/gagarin.webp" alt="Yuri Gagarin" class="timeline-image">
+                                <div class="timeline-header-text">
+                                    <div class="date">1961</div>
+                                    <h3>Yuri Gagarin</h3>
+                                    <p>First human in space</p>
+                                </div>
+                            </div>
+                            <div class="timeline-description">
+                                On April 12, 1961, Soviet cosmonaut Yuri Gagarin became the first human to journey into outer space. His spacecraft, Vostok 1, completed one orbit around Earth, marking a historic moment in human spaceflight. The flight lasted 108 minutes from launch to landing, during which Gagarin reached an altitude of 327 km. This achievement demonstrated that humans could survive in space and paved the way for future space exploration.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <img src="pictures/appolo11.webp" alt="Apollo 11" class="timeline-image">
+                                <div class="timeline-header-text">
+                                    <div class="date">1969</div>
+                                    <h3>Apollo 11</h3>
+                                    <p>First humans on the Moon</p>
+                                </div>
+                            </div>
+                            <div class="timeline-description">
+                                On July 20, 1969, NASA's Apollo 11 mission successfully landed humans on the Moon for the first time. Astronauts Neil Armstrong and Buzz Aldrin became the first humans to walk on the lunar surface, while Michael Collins orbited above in the Command Module. Armstrong's first step onto the Moon's surface was accompanied by his famous words: "That's one small step for man, one giant leap for mankind." The mission fulfilled President Kennedy's goal of landing humans on the Moon and returning them safely to Earth.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <img src="pictures/hubble.jpg" alt="Hubble Space Telescope" class="timeline-image">
+                                <div class="timeline-header-text">
+                                    <div class="date">1990</div>
+                                    <h3>Hubble Space Telescope</h3>
+                                    <p>Revolutionary space telescope launched</p>
+                                </div>
+                            </div>
+                            <div class="timeline-description">
+                                The Hubble Space Telescope was launched into low Earth orbit in 1990 and remains in operation today. It's one of NASA's largest and most versatile space telescopes, providing unprecedented deep views of the universe. Despite initial problems with its mirror that required a Space Shuttle repair mission, Hubble has made more than 1.5 million observations and generated over 19,000 peer-reviewed scientific papers, revolutionizing almost every area of astronomy.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <img src="pictures/rover.jpg" alt="Curiosity Rover" class="timeline-image">
+                                <div class="timeline-header-text">
+                                    <div class="date">2012</div>
+                                    <h3>Curiosity Rover</h3>
+                                    <p>Mars Science Laboratory lands on Mars</p>
+                                </div>
+                            </div>
+                            <div class="timeline-description">
+                                NASA's Curiosity rover landed on Mars on August 6, 2012, using a revolutionary sky-crane maneuver. As part of the Mars Science Laboratory mission, Curiosity's goal is to determine whether Mars ever had the right environmental conditions to support small life forms. The rover has made numerous discoveries, including evidence that ancient Mars had the right chemistry to support living microbes and finding organic molecules in rocks.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="missions-grid">
+                <article class="mission-card">
+                    <div class="card-image" style="background-image: url('pictures/moon-missions.jpg')"></div>
+                    <div class="card-content">
+                        <h2>Moon Missions</h2>
+                        <p>From Apollo to Artemis: Humanity's ongoing exploration of our nearest celestial neighbor.</p>
+                        <ul class="mission-highlights">
+                            <li><i class="fas fa-rocket"></i> Apollo Program (1969-1972)</li>
+                            <li><i class="fas fa-rocket"></i> Lunar Reconnaissance Orbiter</li>
+                            <li><i class="fas fa-rocket"></i> Artemis Program</li>
+                        </ul>
+                        <a href="https://science.nasa.gov/moon/missions/" class="read-more" target="_blank">Learn About Moon Missions</a>
+                    </div>
+                </article>
+
+                <article class="mission-card">
+                    <div class="card-image" style="background-image: url('pictures/mars-missions.jpg')"></div>
+                    <div class="card-content">
+                        <h2>Mars Exploration</h2>
+                        <p>Discovering the secrets of the Red Planet through robotic explorers and future human missions.</p>
+                        <ul class="mission-highlights">
+                            <li><i class="fas fa-robot"></i> Perseverance Rover</li>
+                            <li><i class="fas fa-robot"></i> InSight Lander</li>
+                            <li><i class="fas fa-robot"></i> Mars Sample Return</li>
+                        </ul>
+                        <a href="https://science.nasa.gov/mars/" class="read-more" target="_blank">Explore Mars Missions</a>
+                    </div>
+                </article>
+
+                <article class="mission-card">
+                    <div class="card-image" style="background-image: url('pictures/space-stations.jpg')"></div>
+                    <div class="card-content">
+                        <h2>Space Stations</h2>
+                        <p>Permanent human presence in space through orbital laboratories and research stations.</p>
+                        <ul class="mission-highlights">
+                            <li><i class="fas fa-space-shuttle"></i> International Space Station</li>
+                            <li><i class="fas fa-space-shuttle"></i> Tiangong Space Station</li>
+                            <li><i class="fas fa-space-shuttle"></i> Future Commercial Stations</li>
+                        </ul>
+                        <a href="https://en.wikipedia.org/wiki/List_of_space_stations" class="read-more" target="_blank">Discover Space Stations</a>
+                    </div>
+                </article>
+
+                <article class="mission-card">
+                    <div class="card-image" style="background-image: url('pictures/deep-space.jpg')"></div>
+                    <div class="card-content">
+                        <h2>Deep Space Missions</h2>
+                        <p>Venturing into the outer solar system and beyond with robotic explorers.</p>
+                        <ul class="mission-highlights">
+                            <li><i class="fas fa-satellite"></i> Voyager Program</li>
+                            <li><i class="fas fa-satellite"></i> New Horizons</li>
+                            <li><i class="fas fa-satellite"></i> James Webb Space Telescope</li>
+                        </ul>
+                        <a href="https://en.wikipedia.org/wiki/Deep_space_exploration" class="read-more" target="_blank">Explore Deep Space</a>
+                    </div>
+                </article>
+            </section>
+
+            <section class="video-section" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+                <div style="background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease;">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-bottom: 2px solid var(--accent-color);">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="https://www.youtube.com/embed/UyzBoUvN3PM" 
+                            title="Space Exploration" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div style="padding: 2rem; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="fas fa-rocket" style="color: var(--accent-color); font-size: 2rem; margin-right: 1rem;"></i>
+                            <h2 style="font-size: 1.8rem; margin: 0; color: var(--accent-color); font-family: 'Orbitron', sans-serif;">
+                                Space Exploration - New Horizons
+                            </h2>
+                        </div>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text-secondary); margin: 0; padding-left: 3rem;">
+                            Discover humanity's fascinating journey into space. See how scientists and astronauts work towards 
+                            understanding the mysteries of the universe and developing space technologies.
+                        </p>
+                        <div style="margin-top: 1.5rem; padding-left: 3rem; display: flex; gap: 1rem;">
+                            <button onclick="watchVideo('UyzBoUvN3PM')" style="background: rgba(0, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; display: flex; align-items: center; border: 1px solid var(--accent-color); cursor: pointer; transition: all 0.3s ease; color: var(--text-primary);">
+                                <i class="fas fa-video" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                                Watch Video
+                            </button>
+                            <button onclick="toggleFavorite(this, 'space-exploration-video')" style="background: rgba(0, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; display: flex; align-items: center; border: 1px solid var(--accent-color); cursor: pointer; transition: all 0.3s ease; color: var(--text-primary);">
+                                <i class="fas fa-star" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                                Add to Favorites
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="future-section">
+                <h2>Future of Space Exploration</h2>
+                <div class="future-grid">
+                    <div class="future-card">
+                        <i class="fas fa-user-astronaut"></i>
+                        <h3>Human Mars Landing</h3>
+                        <p>Plans for the first human mission to Mars, including habitat design, resource utilization, and sustainable living solutions.</p>
+                        <a href="https://www.nasa.gov/humans-in-space/humans-to-mars/" class="read-more" target="_blank">Learn More</a>
+                    </div>
+                    <div class="future-card">
+                        <i class="fas fa-meteor"></i>
+                        <h3>Asteroid Mining</h3>
+                        <p>Resource extraction from near-Earth asteroids, advancing space mining technology and resource utilization.</p>
+                        <a href="https://hir.harvard.edu/economics-of-the-stars/" class="read-more" target="_blank">Learn More</a>
+                    </div>
+                    <div class="future-card">
+                        <i class="fas fa-globe-europe"></i>
+                        <h3>Space Tourism</h3>
+                        <p>Commercial space travel for civilians, making space accessible for private exploration and adventure.</p>
+                        <a href="https://www.nasa.gov/humans-in-space/commercial-space/" class="read-more" target="_blank">Learn More</a>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
+        <div style="position: relative; width: 80%; max-width: 1000px; margin: 50px auto;">
+            <button onclick="closeVideoModal()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                <iframe id="modalVideo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get background video element
+        const backgroundVideo = document.getElementById('myVideo');
+
+        // Function to handle video watching in a modal
+        function watchVideo(videoId) {
+            // Pause background video
+            if (backgroundVideo) {
+                backgroundVideo.pause();
+            }
+
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('modalVideo');
+            videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            modal.style.display = 'block';
+            
+            // Add event listener to close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeVideoModal();
+                }
+            });
+        }
+
+        // Function to close the video modal
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('modalVideo');
+            videoFrame.src = '';
+            modal.style.display = 'none';
+
+            // Resume background video
+            if (backgroundVideo) {
+                backgroundVideo.play();
+            }
+        }
+
+        // Function to handle favorites
+        function toggleFavorite(button, videoId) {
+            // Get favorites from localStorage
+            let favorites = JSON.parse(localStorage.getItem('videoFavorites')) || [];
+            
+            if (favorites.includes(videoId)) {
+                // Remove from favorites
+                favorites = favorites.filter(id => id !== videoId);
+                button.innerHTML = '<i class="fas fa-star" style="color: var(--accent-color); margin-right: 0.5rem;"></i>Add to Favorites';
+                button.style.background = 'rgba(0, 255, 255, 0.1)';
+                showNotification('Removed from favorites');
+            } else {
+                // Add to favorites
+                favorites.push(videoId);
+                button.innerHTML = '<i class="fas fa-star" style="color: #FFD700; margin-right: 0.5rem;"></i>Added to Favorites';
+                button.style.background = 'rgba(255, 215, 0, 0.2)';
+                showNotification('Added to favorites');
+            }
+            
+            // Save updated favorites to localStorage
+            localStorage.setItem('videoFavorites', JSON.stringify(favorites));
+        }
+
+        // Function to show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--accent-color);
+                color: black;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                animation: slideIn 0.3s ease-out;
+                z-index: 1000;
+            `;
+            notification.textContent = message;
+
+            // Add notification to body
+            document.body.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check if video is in favorites on page load
+        window.addEventListener('load', function() {
+            const favorites = JSON.parse(localStorage.getItem('videoFavorites')) || [];
+            const favoriteButton = document.querySelector('button[onclick*="toggleFavorite"]');
+            
+            if (favorites.includes('space-exploration-video')) {
+                favoriteButton.innerHTML = '<i class="fas fa-star" style="color: #FFD700; margin-right: 0.5rem;"></i>Added to Favorites';
+                favoriteButton.style.background = 'rgba(255, 215, 0, 0.2)';
+            }
+        });
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Solar System Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.timeline-content').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.timeline-content').forEach(content => {
+                    if (content !== this) {
+                        content.classList.remove('active');
+                    }
+                });
+                
+                // Toggle active class on clicked item
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

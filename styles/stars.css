@@ -1,0 +1,289 @@
+/* Stars & Galaxies Page Styles */
+
+main.content-page {
+    padding-top: 3rem;
+    position: relative;
+    z-index: 4;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.card-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+    z-index: 1;
+}
+
+.content-card:hover .card-image::before {
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.1));
+}
+
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1rem;
+    height: calc(100% - 200px);
+    position: relative;
+}
+
+.card-content h2 {
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    margin: 0;
+    line-height: 1.7rem;
+    flex-shrink: 0;
+}
+
+.card-content > p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    flex-shrink: 0;
+    min-height: 3rem;
+}
+
+/* Star Facts Section */
+.star-facts,
+.galaxy-types,
+.phenomena-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 0;
+    padding-bottom: 3.5rem;
+    flex: 1;
+}
+
+.fact,
+.type,
+.phenomenon {
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.5rem;
+}
+
+.fact i,
+.type i,
+.phenomenon i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+
+.fact-content,
+.type-content,
+.phenomenon-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.fact h3,
+.type h3,
+.phenomenon h3 {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.fact p,
+.type p,
+.phenomenon p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin: 0;
+    flex: 1;
+    text-align: right;
+}
+
+.video-overlay {
+    position: absolute;
+    top: -80px;  
+    left: 0;
+    width: 100%;
+    height: calc(100% + 80px);  
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+/* Read More Button */
+.read-more {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 255, 255, 0.3);
+}
+
+.read-more:hover {
+    background: #fff;
+    color: var(--accent-color);
+    box-shadow: 0 4px 8px rgba(0, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 95vh;
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#myVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.hero-content {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 2rem;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.hero-content p {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 900px;
+    }
+    
+    .content-card {
+        height: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+    }
+    
+    .content-card {
+        height: auto;
+        min-height: 550px;
+    }
+}
+
+@media (max-width: 480px) {
+    .star-facts,
+    .galaxy-types,
+    .phenomena-list {
+        grid-template-columns: repeat(2, 1fr);
+        height: auto;
+    }
+    
+    .content-card {
+        height: auto;
+        min-height: 550px;
+    }
+}
+

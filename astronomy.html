@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy - Solar System Explorer</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .content-card {
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            height: auto;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header {
+            position: relative;
+            padding: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            height: 140px;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+
+        .card-header h2,
+        .card-header p {
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card-header h2 {
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            gap: 1rem;
+            background: transparent;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid var(--accent-color);
+            min-width: 160px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .read-more:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .telescope-types,
+        .event-list,
+        .constellation-info,
+        .photo-tips {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .type {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 0.75rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .type-content {
+            flex: 1;
+        }
+
+        .type i {
+            color: var(--accent-color);
+            font-size: 1rem;
+            width: 1.2rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .type h3 {
+            color: var(--accent-color);
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .type p {
+            margin: 0;
+            font-size: 0.8rem;
+            line-height: 1.3;
+            color: var(--text-secondary);
+        }
+
+        .tip i,
+        .type i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .tools-section {
+            padding: 4rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tool-card h3 {
+            color: var(--accent-color);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .tool-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .tool-link {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid var(--accent-color);
+            min-width: 160px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-top: auto;
+        }
+
+        .tool-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #content {
+            scroll-margin-top: 80px; /* Adjust this value to match your header height */
+        }
+
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="index.html">Solar System Explorer</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about-space.html">About Space</a></li>
+                <li><a href="planets.html">Planets</a></li>
+                <li><a href="stars.html">Stars & Galaxies</a></li>
+                <li><a href="exploration.html">Space Exploration</a></li>
+                <li><a href="astronomy.html" class="active">Astronomy</a></li>
+                <li><a href="https://www.nasa.gov/images/" target="_blank">Gallery</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="video-background">
+                <video autoplay muted loop id="myVideo">
+                    <source src="videos/about space.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1>Astronomy</h1>
+                <p>The science of observing and understanding celestial objects</p>
+                <a href="#content" class="cta-button">Start Learning</a>
+            </div>
+        </section>
+
+        <section id="content" class="content-grid">
+            <article class="content-card">
+                <div class="card-header" style="background-image: url('pictures/Telescopes2.jpg')">
+                    <h2>Telescopes</h2>
+                    <p>Our windows to the universe: from simple refractors to space observatories.</p>
+                </div>
+                <div class="card-content">
+                    <div class="content-wrapper">
+                        <div class="telescope-types">
+                            <div class="type">
+                                <i class="fas fa-telescope"></i>
+                                <div class="type-content">
+                                    <h3>Optical</h3>
+                                    <p>Visible light observation</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-wifi"></i>
+                                <div class="type-content">
+                                    <h3>Radio</h3>
+                                    <p>Radio wave detection</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-rocket"></i>
+                                <div class="type-content">
+                                    <h3>Space-based</h3>
+                                    <p>Above Earth's atmosphere</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-binoculars"></i>
+                                <div class="type-content">
+                                    <h3>Binoculars</h3>
+                                    <p>Portable and handheld</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-wrapper">
+                        <a href="https://stellarium-web.org/" class="read-more" target="_blank">Learn About Telescopes</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <div class="card-header" style="background-image: url('pictures/CelestialEvents2.jpg')">
+                    <h2>Celestial Events</h2>
+                    <p>Natural phenomena that light up our skies and capture our imagination.</p>
+                </div>
+                <div class="card-content">
+                    <div class="content-wrapper">
+                        <div class="event-list">
+                            <div class="type">
+                                <i class="fas fa-meteor"></i>
+                                <div class="type-content">
+                                    <h3>Meteor Showers</h3>
+                                    <p>Annual meteor shower events</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-moon"></i>
+                                <div class="type-content">
+                                    <h3>Lunar Eclipses</h3>
+                                    <p>Moon passing through Earth's shadow</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-sun"></i>
+                                <div class="type-content">
+                                    <h3>Solar Eclipses</h3>
+                                    <p>Moon blocking the Sun</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-star"></i>
+                                <div class="type-content">
+                                    <h3>Supernova Events</h3>
+                                    <p>Explosive stellar phenomena</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-wrapper">
+                        <a href="https://in-the-sky.org/newscal.php" class="read-more" target="_blank">Track Events</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <div class="card-header" style="background-image: url('pictures/Constellations5.jpg')">
+                    <h2>Constellations</h2>
+                    <p>Ancient patterns in the night sky that tell stories of mythology and guide navigation.</p>
+                </div>
+                <div class="card-content">
+                    <div class="content-wrapper">
+                        <div class="constellation-info">
+                            <div class="type">
+                                <i class="fas fa-star"></i>
+                                <div class="type-content">
+                                    <h3>88</h3>
+                                    <p>Official constellations</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-moon"></i>
+                                <div class="type-content">
+                                    <h3>12</h3>
+                                    <p>Zodiac constellations</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-history"></i>
+                                <div class="type-content">
+                                    <h3>48</h3>
+                                    <p>Ancient constellations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-wrapper">
+                        <a href="https://stellarium-web.org/" class="read-more" target="_blank">Explore Constellations</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <div class="card-header" style="background-image: url('pictures/Astrophotography4.webp')">
+                    <h2>Astrophotography</h2>
+                    <p>Capturing the beauty of the cosmos through photography.</p>
+                </div>
+                <div class="card-content">
+                    <div class="content-wrapper">
+                        <div class="photo-tips">
+                            <div class="type">
+                                <i class="fas fa-camera"></i>
+                                <div class="type-content">
+                                    <h3>Equipment</h3>
+                                    <p>Camera and mount selection</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-sliders-h"></i>
+                                <div class="type-content">
+                                    <h3>Settings</h3>
+                                    <p>Exposure and ISO tips</p>
+                                </div>
+                            </div>
+                            <div class="type">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <div class="type-content">
+                                    <h3>Location</h3>
+                                    <p>Finding dark sky sites</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-wrapper">
+                        <a href="https://www.swpc.noaa.gov/" class="read-more" target="_blank">Start Astrophotography</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="video-section" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+            <div style="background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease;">
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-bottom: 2px solid var(--accent-color);">
+                    <iframe 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                        src="https://www.youtube.com/embed/DZs6A7_gMm8" 
+                        title="Astronomy" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="padding: 2rem; text-align: left;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <i class="fas fa-star-and-crescent" style="color: var(--accent-color); font-size: 2rem; margin-right: 1rem;"></i>
+                        <h2 style="font-size: 1.8rem; margin: 0; color: var(--accent-color); font-family: 'Orbitron', sans-serif;">
+                            The Science of Astronomy
+                        </h2>
+                    </div>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text-secondary); margin: 0; padding-left: 3rem;">
+                        Discover the fascinating world of astronomy and learn about the tools and techniques used to study the cosmos. 
+                        From telescopes to space probes, explore how we observe and understand the universe.
+                    </p>
+                    <div style="margin-top: 1.5rem; padding-left: 3rem; display: flex; gap: 1rem;">
+                        <button onclick="watchVideo('DZs6A7_gMm8')" style="background: rgba(0, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; display: flex; align-items: center; border: 1px solid var(--accent-color); cursor: pointer; transition: all 0.3s ease; color: var(--text-primary);">
+                            <i class="fas fa-video" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                            Watch Video
+                        </button>
+                        <button onclick="toggleFavorite(this, 'astronomy-video')" style="background: rgba(0, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; display: flex; align-items: center; border: 1px solid var(--accent-color); cursor: pointer; transition: all 0.3s ease; color: var(--text-primary);">
+                            <i class="fas fa-star" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                            Add to Favorites
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tools-section">
+            <h2>Astronomy Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>Star Charts</h3>
+                    <p>Interactive star maps to help you navigate the night sky</p>
+                    <a href="https://stellarium-web.org/" class="tool-link" target="_blank">Open Star Charts</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Event Calendar</h3>
+                    <p>Stay updated with upcoming astronomical events</p>
+                    <a href="https://in-the-sky.org/newscal.php" class="tool-link" target="_blank">View Calendar</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Weather Forecast</h3>
+                    <p>Check space weather conditions for observation</p>
+                    <a href="https://www.swpc.noaa.gov/" class="tool-link" target="_blank">Check Weather</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
+        <div style="position: relative; width: 80%; max-width: 1000px; margin: 50px auto;">
+            <button onclick="closeVideoModal()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                <iframe id="modalVideo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get background video element
+        const backgroundVideo = document.getElementById('myVideo');
+
+        // Function to handle video watching in a modal
+        function watchVideo(videoId) {
+            // Pause background video
+            if (backgroundVideo) {
+                backgroundVideo.pause();
+            }
+
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('modalVideo');
+            videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            modal.style.display = 'block';
+            
+            // Add event listener to close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeVideoModal();
+                }
+            });
+        }
+
+        // Function to close the video modal
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('modalVideo');
+            videoFrame.src = '';
+            modal.style.display = 'none';
+
+            // Resume background video
+            if (backgroundVideo) {
+                backgroundVideo.play();
+            }
+        }
+
+        // Function to handle favorites
+        function toggleFavorite(button, videoId) {
+            // Get favorites from localStorage
+            let favorites = JSON.parse(localStorage.getItem('videoFavorites')) || [];
+            
+            if (favorites.includes(videoId)) {
+                // Remove from favorites
+                favorites = favorites.filter(id => id !== videoId);
+                button.innerHTML = '<i class="fas fa-star" style="color: var(--accent-color); margin-right: 0.5rem;"></i>Add to Favorites';
+                button.style.background = 'rgba(0, 255, 255, 0.1)';
+                showNotification('Removed from favorites');
+            } else {
+                // Add to favorites
+                favorites.push(videoId);
+                button.innerHTML = '<i class="fas fa-star" style="color: #FFD700; margin-right: 0.5rem;"></i>Added to Favorites';
+                button.style.background = 'rgba(255, 215, 0, 0.2)';
+                showNotification('Added to favorites');
+            }
+            
+            // Save updated favorites to localStorage
+            localStorage.setItem('videoFavorites', JSON.stringify(favorites));
+        }
+
+        // Function to show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--accent-color);
+                color: black;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                animation: slideIn 0.3s ease-out;
+                z-index: 1000;
+            `;
+            notification.textContent = message;
+
+            // Add notification to body
+            document.body.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check if video is in favorites on page load
+        window.addEventListener('load', function() {
+            const favorites = JSON.parse(localStorage.getItem('videoFavorites')) || [];
+            const favoriteButton = document.querySelector('button[onclick*="toggleFavorite"]');
+            
+            if (favorites.includes('astronomy-video')) {
+                favoriteButton.innerHTML = '<i class="fas fa-star" style="color: #FFD700; margin-right: 0.5rem;"></i>Added to Favorites';
+                favoriteButton.style.background = 'rgba(255, 215, 0, 0.2)';
+            }
+        });
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Solar System Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
