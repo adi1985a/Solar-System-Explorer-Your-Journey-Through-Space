@@ -25,7 +25,12 @@ _A responsive HTML-based website for learning about space, featuring a video bac
 
 **Solar System Explorer** is a responsive HTML-based website designed to be an engaging educational resource for learning about space and astronomy. The site features a captivating video background, an interactive modal for watching embedded YouTube videos, a "favorites" system utilizing browser `localStorage` to save preferred videos, and an informative facts carousel. It also highlights recent space discoveries and provides links to external resources like NASA. Built with modern HTML, CSS (custom styles in `styles/main.css`), and JavaScript (`js/main.js`), it incorporates Font Awesome icons and Google Fonts ("Orbitron" and "Roboto") for a clean, thematic, and user-friendly experience.
 
-![Demo GIF](screenshots/1.gif)
+<br><br>
+<p align="center">
+  <img src="screenshots/1.gif" width="70%">
+</p>
+
+
 ![Demo GIF](screenshots/2.gif)
 ![Demo GIF](screenshots/3.gif)
 ![Demo GIF](screenshots/4.gif)
