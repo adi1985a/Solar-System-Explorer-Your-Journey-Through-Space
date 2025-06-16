@@ -29,14 +29,25 @@ _A responsive HTML-based website for learning about space, featuring a video bac
 <p align="center">
   <img src="screenshots/1.gif" width="70%">
 </p>
+<p align="center">
+  <img src="screenshots/2.gif" width="70%">
+</p>
+<p align="center">
+  <img src="screenshots/3.gif" width="70%">
+</p>
+<p align="center">
+  <img src="screenshots/4.gif" width="70%">
+</p>
+<p align="center">
+  <img src="screenshots/5.gif" width="70%">
+</p>
+<p align="center">
+  <img src="screenshots/6.gif" width="70%">
+</p>
+<p align="center">
+  <img src="screenshots/7.gif" width="70%">
+</p>
 
-
-![Demo GIF](screenshots/2.gif)
-![Demo GIF](screenshots/3.gif)
-![Demo GIF](screenshots/4.gif)
-![Demo GIF](screenshots/5.gif)
-![Demo GIF](screenshots/6.gif)
-![Demo GIF](screenshots/7.gif)
 
 ## ✨ Key Features
 
